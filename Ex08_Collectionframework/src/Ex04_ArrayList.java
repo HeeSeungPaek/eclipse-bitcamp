@@ -7,6 +7,7 @@ class Empdata {
 
 	Empdata() {
 		this.name = "아무개";
+		
 		// 사용자 정의 타입, Array, ArrayList > 초기화 : 처음 값을 가지는 것 >> 메모리를 가지는 것 >> new 통해 힙에 있는
 		// 메모리에..
 		this.numbers = new int[10];
