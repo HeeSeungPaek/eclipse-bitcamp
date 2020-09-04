@@ -48,7 +48,7 @@ public class Ex02_ArrayList {
 
 		// arraylist.remove(200); //indexOutOfBounds Exception 문제
 		System.out.println(arraylist);
-
+		
 		System.out.println(arraylist.contains(200)); // contains() 값을 읽어 return boolean.
 		System.out.println(arraylist.contains(2000));
 

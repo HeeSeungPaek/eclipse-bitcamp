@@ -56,7 +56,7 @@ public class Ex07_Generic_Quiz {
 		cart[0] = new KtTv();
 		cart[1] = new Audio();
 		cart[2] = new NoteBook();
-
+		
 		// 2. ArrayList 를 사용해서 cart 만들고 제품을 담으세요
 		ArrayList<Product> pcart = new ArrayList<Product>();
 		pcart.add(new KtTv());

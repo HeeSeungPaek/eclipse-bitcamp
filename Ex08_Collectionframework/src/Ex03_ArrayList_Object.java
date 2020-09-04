@@ -32,7 +32,7 @@ public class Ex03_ArrayList_Object {
 		
 		//toString을 사용하지 말고 사원의 사번, 이름, 직종을 출력해보세요.
 		for(int i = 0; i < elist.size(); i++) {
-			Object obj = elist.get(i);
+			Object obj = elist.get(i);			// ArrayList에 제네릭 X-> Object타입이다. 그래서 다운캐스팅이 필요
 			Emp e = (Emp)obj;					//다운캐스팅 해야 보인다.
 			System.out.println(e.getEmpno());
 			System.out.println(e.getEname());

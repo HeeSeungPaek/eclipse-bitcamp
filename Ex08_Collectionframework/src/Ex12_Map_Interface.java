@@ -23,7 +23,7 @@ public class Ex12_Map_Interface {
 		map.put("Tiger", "1004");
 		map.put("scott", "1004");
 		map.put("superman", "1004");
-
+		
 		System.out.println(map.containsKey("tiger")); // 대소문자 구별 (false)
 		System.out.println(map.containsKey("scott"));
 		System.out.println(map.containsValue("1004"));
@@ -39,10 +39,17 @@ public class Ex12_Map_Interface {
 		System.out.println("value : " + value);
 		System.out.println(map.toString());
 
+		HashMap<String, String> strmap = new HashMap<String, String>();
+		strmap.put("ㅎㅇ", "1111");
+		String v = strmap.remove("ㅎㅇ");
+		
 		// 응용 (이해) ^^!
 		Set set = map.keySet(); // keySet() : 는 Set을 구현하고 있는 객체의 주소를 리턴
+								// keySet() >> 내부적으로 Set을 new한다!
+								// keySet() : key 객체들 다 모아서 Set을 하나 만드는것!
+		System.out.println(set);
 		// 순서(x) , 중복(x)
-		Iterator it = set.iterator();
+		Iterator it = set.iterator();	//내부적으로 iterator를 구현하는 객체를 만든다
 		while (it.hasNext()) {
 			System.out.println(it.next());
 		}

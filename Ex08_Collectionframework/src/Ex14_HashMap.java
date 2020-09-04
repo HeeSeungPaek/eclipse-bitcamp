@@ -23,7 +23,7 @@ class Student {
 		this.eng = eng;
 		this.name = name;
 	}
-
+	
 }
 
 class ArrayTest {
