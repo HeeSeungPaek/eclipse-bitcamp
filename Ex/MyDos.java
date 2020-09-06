@@ -8,10 +8,13 @@ import java.util.Scanner;
 
 public class MyDos {
 
+	static String defaultPath = "C:" + File.separator;
+	static String path = defaultPath;
+
 	public static void main(String[] args) {
-		
-		System.out.println("Microsoft Windows DOS 명령어 만들기 [Version 1.0]");
-		System.out.println("(c) 2020 Microsoft Corporation. All rights reserved\n");
+
+		System.out.println("Bitamp Microsoft Windows DOS 명령어 [Version 1.1]");
+		System.out.println("2020 Bitcamp. All rights reserved\n");
 
 		Scanner sc = new Scanner(System.in);
 
@@ -33,6 +36,8 @@ public class MyDos {
 				break;
 			case "cd":
 			case "cd..":
+			case "cd\\":
+			case "cd/":
 				changeDirectory(input);
 				break;
 			case "md":
@@ -57,11 +62,8 @@ public class MyDos {
 			}
 		}
 	}
-	
-	static String defaultPath = "C:" + File.separator;
-	static String path = defaultPath;
-	
-	static void searchDirectory() {
+
+	static void searchDirectory() { // dir
 		Calendar date = Calendar.getInstance();
 		SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
 
@@ -92,11 +94,16 @@ public class MyDos {
 		System.out.println("\t\t[현재 디렉토리 수] : " + dir.size());
 	}
 
-	static void changeDirectory(String[] input) { // cd 문제 : cd.. 입력 시 무조건 C:\로 진입한다. 고치기
+	static void changeDirectory(String[] input) { // cd
 		String temp = "";
-		String inputPath = ""; // cd명령어 다음부터의 입력한 문자열 > input
+		String inputPath = ""; // cd명령어 다음부터의 입력한 문자열 > inputPath
 
-		if (input.length > 1) // cd ..일 경우, if문을 안탄다.
+		if (input[0].equalsIgnoreCase("cd\\") || input[0].equalsIgnoreCase("cd/")) {
+			path = defaultPath;
+			return;
+		}
+
+		if (input.length > 1) // cd ..일 경우, input[1] = cd / input[2] = ..
 			inputPath = input[1];
 
 		if (input[0].equalsIgnoreCase("cd..")) {
@@ -109,7 +116,7 @@ public class MyDos {
 				path = currentPath.getParentFile().getAbsolutePath();
 
 		} else {
-			if (inputPath.contains("./")) { // cd와 작동 방법 동일
+			if (inputPath.contains("./")) { // cd와 작동 방법 동일 [ ./ : 현재 path와 동일한 경로의 단축구문 ]
 				if (inputPath.contains(defaultPath)) { // cd ./C:\의 오류 처리
 					System.out.println("파일 이름, 디렉토리 이름 또는 볼륨 레이블 구문이 잘못되었습니다.");
 					return;
@@ -117,12 +124,12 @@ public class MyDos {
 				temp = path + File.separator + inputPath.replace("./", ""); // ./경로명 을 입력할 경우에, 내가 입력한 값을 절대경로로 만든다.
 
 			} else if (inputPath.contains(defaultPath)) { // 절대경로를 입력할 경우
-				temp = inputPath; // C:\를 제외한 경로
-			} else { // 현재 경로의 하위 경로를 입력한 경우
+				temp = inputPath; // temp = 절대경로
+			} else { // 현재 경로의 하위 경로를 입력한 경우 절대경로로 변경할당
 				temp = path + File.separator + inputPath;
 			}
-
-			File file = new File(temp); // 검증
+			// 검증
+			File file = new File(temp);
 
 			if (file.exists() && file.isDirectory()) {
 				path = file.getAbsolutePath();
@@ -137,8 +144,8 @@ public class MyDos {
 		if (input.length == 1) {
 			System.out.println("명령 구문이 올바르지 않습니다.");
 		} else {
-			File dir = new File(path + input[1]);
-
+			File dir = new File(path + File.separator + input[1]);
+			System.out.println(dir.getAbsolutePath());
 			if (!dir.exists()) {
 				dir.mkdir();
 			} else if (dir.exists()) {
@@ -151,7 +158,7 @@ public class MyDos {
 		if (input.length == 1)
 			System.out.println("명령 구문이 올바르지 않습니다.");
 		else {
-			File dir = new File(path + input[1]);
+			File dir = new File(path + File.separator + input[1]);
 
 			if (!dir.exists())
 				System.out.println("지정된 파일을 찾을 수 없습니다.");
@@ -171,18 +178,18 @@ public class MyDos {
 
 	static void renameDirectory(String[] input) { // rename
 		if (input.length <= 2) {
-			if (input[1].equals("/?")) {
+			if (input.length == 1) {
+				System.out.println("명령 구문이 올바르지 않습니다.");
+			} else if (input[1].equals("/?")) {
 				System.out.println("RENAME [드라이브:][경로]파일이름1 파일이름2.");
 				System.out.println("REN [드라이브:][경로]파일이름1 파일이름2.");
 				System.out.println("\n대상 파일로 새 드라이브나 경로를 지정할 수 없음을 주의하십시오.");
-			} else {
-				System.out.println("명령 구문이 올바르지 않습니다.");
 			}
 
 		} else if (input.length == 3) {
 			String originFile = "";
 			if (!input[1].contains(defaultPath)) {
-				originFile = path + input[1];
+				originFile = path + File.separator + input[1];
 			} else {
 				originFile = input[1];
 			}
@@ -191,7 +198,7 @@ public class MyDos {
 			if (!file.exists()) {
 				System.out.println("지정된 파일을 찾을 수 없습니다.");
 			} else { // 실제 바꾸고자 하는 파일이 존재할 경우...
-				File newFile = new File(path + input[2]);
+				File newFile = new File(path + File.separator + input[2]);
 				if (!newFile.exists()) {
 					file.renameTo(newFile);
 				} else { // 동일한 이름이 존재하므로...
@@ -201,7 +208,7 @@ public class MyDos {
 		}
 	}
 
-	static void readTextFile(String[] input) {
+	static void readTextFile(String[] input) { // type
 
 		if (input.length == 1) { // type 명령어만 작성하였을 때 출력.
 			System.out.println("명령 구문이 올바르지 않습니다.");
@@ -243,10 +250,11 @@ public class MyDos {
 
 	}
 
-	static void displayHelp() {
+	static void displayHelp() { // help
 		System.out.println("DIR         디렉터리에 있는 파일과 하위 디렉터리 목록을 보여줍니다.");
 		System.out.println("CD          현재 디렉터리 이름을 보여주거나 바꿉니다.");
 		System.out.println("CD..        하위 디렉토리로 이동합니다.");
+		System.out.println("CD\\ or CD/ Default 경로로 이동합니다.");
 		System.out.println("MD(MKDIR)   디렉토리를 만듭니다.");
 		System.out.println("RD(RMDIR)   디렉토리를 지웁니다.");
 		System.out.println("REN(RENAME) 파일 이름을 바꿉니다.");
