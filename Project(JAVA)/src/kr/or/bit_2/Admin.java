@@ -6,10 +6,10 @@ public class Admin extends User {
 	final String psw = "1234";
 	
 	@Override
-	int logIn() {
+	public void logIn() {
 		
 		
-		return 0;
+		
 	}
 
 	
