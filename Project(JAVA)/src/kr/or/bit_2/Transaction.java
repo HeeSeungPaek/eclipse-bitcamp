@@ -4,5 +4,9 @@ import java.util.Calendar;
 
 public class Transaction {
 //거래정보 담기는 곳
-	Calendar cd = Calendar.getInstance();
+	private String transactionDate;
+	private String transactionTime;
+	private String kind;
+	private long amount;
+	
 }

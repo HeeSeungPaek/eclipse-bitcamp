@@ -1,10 +1,9 @@
 package kr.or.bit_2;
 
-import java.util.Calendar;
+import java.util.HashMap;
 
 public class Bicycle {
-	int count;
-	
+	static int count;
 	
 	
 }
